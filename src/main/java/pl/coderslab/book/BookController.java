@@ -1,11 +1,9 @@
-package pl.coderslab;
+package pl.coderslab.book;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/book")

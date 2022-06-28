@@ -1,4 +1,4 @@
-package pl.coderslab;
+package pl.coderslab.book;
 
 import org.springframework.stereotype.Repository;
 
@@ -32,13 +32,13 @@ public class BookDao {
                 book : entityManager.merge(book));
     }
 
-    public List<Book> getAll() {
+    public List<Book> findAll() {
         Query query = entityManager.createQuery("select b from Book b");
         List<Book> resultList = query.getResultList();
         return resultList;
     }
 
-    public List<Book> getAllSimple() {
+    public List<Book> findAllSimple() {
         return entityManager
                 .createQuery("select b from Book b")
                 .getResultList();

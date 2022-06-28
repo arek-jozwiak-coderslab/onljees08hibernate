@@ -1,4 +1,4 @@
-package pl.coderslab;
+package pl.coderslab.book;
 
 import lombok.Getter;
 import lombok.Setter;
