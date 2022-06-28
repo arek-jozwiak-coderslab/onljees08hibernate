@@ -6,3 +6,6 @@
 <form:input path="description"/>
 <form:select path="publisher" items="${publishers}"
              itemLabel="name" itemValue="id"/>
+
+<form:select path="authors" items="${authors}"
+             itemLabel="lastName" itemValue="id"/>

@@ -11,15 +11,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class BookFormController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
+    private final AuthorDao authorDao;
 
-    public BookFormController(BookDao bookDao, PublisherDao publisherDao) {
+    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
+        this.authorDao = authorDao;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String addBook(Model model) {
         model.addAttribute("publishers", publisherDao.findAll());
+        model.addAttribute("authors", authorDao.findAll());
         model.addAttribute("book", new Book());
         return "book/add";
     }
