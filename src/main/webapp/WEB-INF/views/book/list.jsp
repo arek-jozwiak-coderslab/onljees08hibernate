@@ -20,6 +20,7 @@
     <th>rating</th>
     <th>description</th>
     <th>publisher</th>
+    <th>Akcje</th>
   </tr>
   <c:forEach var="book" items="${books}">
     <tr>
@@ -28,6 +29,10 @@
       <td>${book.rating}</td>
       <td>${book.description}</td>
       <td>${book.publisher.name}</td>
+      <td>
+        <a href="<c:url  value="/book-form/confirm?id=${book.id}"/> ">Usuń </a>
+        <a href="<c:url  value="/book-form/edit?id=${book.id}"/> ">Edytuj </a>
+      </td>
     </tr>
   </c:forEach>
 </table>
