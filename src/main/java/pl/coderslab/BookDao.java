@@ -44,4 +44,11 @@ public class BookDao {
                 .getResultList();
     }
 
+
+    public List<Book> findAllByRating(int rating) {
+        return entityManager
+                .createQuery("select b from Book b where b.rating =:r")
+                .setParameter("r", rating)
+                .getResultList();
+    }
 }

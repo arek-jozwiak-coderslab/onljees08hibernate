@@ -2,13 +2,16 @@ package pl.coderslab;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/book")
 public class BookController {
 
-    private final  BookDao bookDao;
+    private final BookDao bookDao;
     private final PublisherDao publisherDao;
 
     public BookController(BookDao bookDao, PublisherDao publisherDao) {
@@ -18,7 +21,7 @@ public class BookController {
 
     @RequestMapping("/test")
     @ResponseBody
-    public String test(){
+    public String test() {
         Book byId = bookDao.findById(1l);
         byId.setTitle(" Other book about java");
         bookDao.update(byId);
@@ -27,7 +30,7 @@ public class BookController {
 
     @RequestMapping("/add")
     @ResponseBody
-    public String add(){
+    public String add() {
         Publisher publisher = new Publisher();
         publisher.setName("Helion");
         publisherDao.save(publisher);
@@ -38,6 +41,14 @@ public class BookController {
         book.setRating(5);
         bookDao.save(book);
 
+        return "test";
+    }
+
+    @RequestMapping("/test-rating")
+    @ResponseBody
+    public String testRating(@RequestParam int rating) {
+        bookDao.findAllByRating(rating).stream()
+                .forEach(b -> System.out.println(b.getTitle()));
         return "test";
     }
 
