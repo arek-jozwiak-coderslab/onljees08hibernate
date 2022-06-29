@@ -15,11 +15,13 @@ public class BookFormController {
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
     private final AuthorDao authorDao;
+    private final BookRepository bookRepository;
 
-    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao) {
+    public BookFormController(BookDao bookDao, PublisherDao publisherDao, AuthorDao authorDao, BookRepository bookRepository) {
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
         this.authorDao = authorDao;
+        this.bookRepository = bookRepository;
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
@@ -37,7 +39,8 @@ public class BookFormController {
             model.addAttribute("authors", authorDao.findAll());
             return "book/add";
         }
-        bookDao.save(book);
+        bookRepository.save(book);
+
         return "redirect:/book-form/list";
     }
 
@@ -49,7 +52,8 @@ public class BookFormController {
 
     @RequestMapping(value = "/remove", method = RequestMethod.GET)
     public String remove(@RequestParam Long id) {
-        bookDao.delete(bookDao.findById(id));
+        bookRepository.deleteById(id);
+
         return "redirect:/book-form/list";
     }
 

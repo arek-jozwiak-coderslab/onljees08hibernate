@@ -16,11 +16,15 @@ public class BookController {
     private final Validator validator;
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
+    private final BookRepository bookRepository;
+    private final CategoryRepository categoryRepository;
 
-    public BookController(Validator validator, BookDao bookDao, PublisherDao publisherDao) {
+    public BookController(Validator validator, BookDao bookDao, PublisherDao publisherDao, BookRepository bookRepository, CategoryRepository categoryRepository) {
         this.validator = validator;
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
+        this.bookRepository = bookRepository;
+        this.categoryRepository = categoryRepository;
     }
 
     @RequestMapping("/test")
@@ -49,7 +53,7 @@ public class BookController {
             constraintViolations.forEach(
                     cv -> System.out.println(cv.getPropertyPath() + " : " + cv.getMessage())
             );
-        }else {
+        } else {
             bookDao.save(book);
         }
 
@@ -61,6 +65,25 @@ public class BookController {
     public String testRating(@RequestParam int rating) {
         bookDao.findAllByRating(rating).stream()
                 .forEach(b -> System.out.println(b.getTitle()));
+        return "test";
+    }
+
+    @RequestMapping("/test-repo")
+    @ResponseBody
+    public String testRepo() {
+        bookRepository.findByTitle("111").forEach(b ->
+                System.out.println(b.getTitle() + " :" + b.getId()));
+        System.out.println("---------");
+
+        bookRepository.findByCategoryId(1l).forEach(b ->
+                System.out.println(b.getTitle() + " :" + b.getId()));
+        System.out.println("---------");
+
+        Category one = categoryRepository.getOne(1l);
+
+        System.out.println("---------");
+        bookRepository.findByCategory(one).forEach(b ->
+                System.out.println(b.getTitle() + " :" + b.getId()));
         return "test";
     }
 

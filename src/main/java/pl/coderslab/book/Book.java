@@ -25,6 +25,8 @@ public class Book {
     @NotNull
     @ManyToOne
     private Publisher publisher;
+    @ManyToOne
+    private Category category;
     @Size(min = 1)
     @NotEmpty
     @ManyToMany
