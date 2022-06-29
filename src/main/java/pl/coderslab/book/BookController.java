@@ -5,14 +5,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import java.util.Set;
+
 @Controller
 @RequestMapping("/book")
 public class BookController {
 
+    private final Validator validator;
     private final BookDao bookDao;
     private final PublisherDao publisherDao;
 
-    public BookController(BookDao bookDao, PublisherDao publisherDao) {
+    public BookController(Validator validator, BookDao bookDao, PublisherDao publisherDao) {
+        this.validator = validator;
         this.bookDao = bookDao;
         this.publisherDao = publisherDao;
     }
@@ -37,7 +43,15 @@ public class BookController {
         book.setPublisher(publisher);
         book.setTitle("Java 2 podstawy");
         book.setRating(5);
-        bookDao.save(book);
+
+        Set<ConstraintViolation<Book>> constraintViolations = validator.validate(book);
+        if (!constraintViolations.isEmpty()) {
+            constraintViolations.forEach(
+                    cv -> System.out.println(cv.getPropertyPath() + " : " + cv.getMessage())
+            );
+        }else {
+            bookDao.save(book);
+        }
 
         return "test";
     }
