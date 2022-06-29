@@ -9,6 +9,8 @@
 <form:form method="post" modelAttribute="book">
     <%@include file="_form.jsp" %>
     <input type="submit" value="Save">
+    <br/>
+    <form:errors path="*"/>
 </form:form>
 </body>
 </html>

@@ -5,10 +5,7 @@ import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Entity
@@ -28,7 +25,8 @@ public class Book {
     @NotNull
     @ManyToOne
     private Publisher publisher;
-    @NotNull
+    @Size(min = 1)
+    @NotEmpty
     @ManyToMany
     private List<Author> authors;
 

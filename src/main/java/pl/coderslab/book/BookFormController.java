@@ -2,9 +2,12 @@ package pl.coderslab.book;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/book-form")
@@ -28,7 +31,12 @@ public class BookFormController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String save(Book book, Model model) {
+    public String save(@Valid Book book, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("publishers", publisherDao.findAll());
+            model.addAttribute("authors", authorDao.findAll());
+            return "book/add";
+        }
         bookDao.save(book);
         return "redirect:/book-form/list";
     }
